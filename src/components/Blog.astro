@@ -1,0 +1,67 @@
+---
+import SectionTag from "./SectionTag.astro";
+import Icon from "../components/Icon.astro";
+import { getCollection } from "astro:content";
+import { formatDate, readingTime } from "../utils/format";
+
+const ACCENTS = ["#FFC93C", "#6BCBFF", "#FF6B6B", "#9B5DE5"];
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 2);
+---
+
+<section id="blog" class="py-16 sm:py-24 bg-white border-y-[3px] border-ink grid-bg scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="reveal mb-8" data-anime="fade">
+      <SectionTag label="Blog" color="#6BCF7F" icon="pen" />
+      <h2 class="font-display uppercase mt-3 leading-none text-[clamp(1.9rem,6vw,3.2rem)]">
+        Catatan dan eksperimen
+      </h2>
+    </div>
+
+    {
+      posts.length === 0 ? (
+        <p class="flat-card p-6 font-bold uppercase tracking-widest text-sm">Belum ada post.</p>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5" data-anime="stagger">
+          {posts.map((post, i) => (
+            <a href={`/blog/${post.id}`} class="block group">
+              <article class="flat-card h-full bg-paper overflow-hidden group-hover:-translate-y-2 transition-transform duration-300">
+                <div class="h-2.5" style={`background:${ACCENTS[i % ACCENTS.length]}`} />
+                <div class="p-5 sm:p-6">
+                  <div class="flex flex-wrap items-center gap-2 mb-3">
+                    <time datetime={post.data.pubDate.toISOString()} class="flat-chip bg-ink text-cream !border-ink">
+                      {formatDate(post.data.pubDate)}
+                    </time>
+                    <span class="text-[11px] font-bold uppercase tracking-widest text-ink-soft">{readingTime(post.body)} min baca</span>
+                    <span class="ml-auto w-8 h-8 rounded-full border-2 border-ink grid place-items-center group-hover:bg-sun group-hover:rotate-12 transition-all" style={`background:${ACCENTS[i % ACCENTS.length]}`}>
+                      <Icon name="arrow-right" size={14} />
+                    </span>
+                  </div>
+                  <h3 class="font-display text-xl uppercase leading-tight group-hover:underline decoration-coral decoration-4 underline-offset-4">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-sm leading-relaxed text-ink-soft mt-2 line-clamp-2">{post.data.description}</p>
+                  <div class="flex flex-wrap gap-1.5 mt-4">
+                    {post.data.tags.slice(0,3).map((tag) => (
+                      <span class="px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest bg-cream border-2 border-ink rounded-full">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="reveal text-center mt-10" data-anime="fade">
+      <a href="/blog" class="flat-btn bg-white text-ink text-sm hover:bg-sun">
+        Lihat Semua Post <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+  </div>
+</section>

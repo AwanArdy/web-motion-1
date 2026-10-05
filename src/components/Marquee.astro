@@ -1,0 +1,19 @@
+---
+import { marqueeItems } from "../data/portfolio";
+import Icon from "./Icon.astro";
+const items = [...marqueeItems, ...marqueeItems];
+---
+<div class="relative bg-ink py-3.5 overflow-hidden marquee-mask" aria-hidden="true">
+  <div class="flex gap-3 whitespace-nowrap w-max" data-anime="marquee">
+    {
+      items.map((item, i) => (
+        <span
+          class="flex-shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-widest border-2"
+          style={`background:${["#FFC93C","#FF6B6B","#6BCBFF","#6BCF7F","#9B5DE5"][i % 5]}; border-color:#FFF8E7; color:#1E1E2E;`}
+        >
+          <Icon name="sparkles" size={12} strokeWidth={2.5} /> {item}
+        </span>
+      ))
+    }
+  </div>
+</div>

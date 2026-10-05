@@ -1,0 +1,63 @@
+---
+import Icon from "./Icon.astro";
+import { skills } from "../data/portfolio";
+
+const levels: Record<string, number> = {
+  "React": 92, "TypeScript": 90, "Tailwind CSS": 95, "AngularJS": 75,
+  "Node.js": 88, "Python / FastAPI": 85, "PostgreSQL": 86, "SQLite": 80,
+  "Docker": 78, "NestJS": 82, "Redis": 76, "GraphQL": 80,
+};
+const bgColors = ["#FFC93C", "#6BCBFF", "#FF6B6B", "#6BCF7F", "#9B5DE5", "#FF9F5A"];
+---
+
+<section id="skills" class="relative py-16 sm:py-24 bg-[#E6F6EC] border-y-[3px] border-ink overflow-clip scroll-mt-24">
+  <div aria-hidden="true" class="absolute -top-8 -left-8 w-36 h-36 rounded-full bg-sun/60 border-[3px] border-ink/10" data-anime="float-slow"></div>
+  <div aria-hidden="true" class="absolute bottom-10 right-6 w-20 h-20 dots-bg opacity-50 rounded-2xl hidden sm:block"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 relative">
+    <div class="reveal flex flex-wrap items-end justify-between gap-4 mb-8" data-anime="fade">
+      <div>
+        <span class="flat-chip bg-ink text-cream"><Icon name="sparkles" size={13} strokeWidth={2.5} /> Skills</span>
+        <h2 class="font-display uppercase mt-3 text-[clamp(1.9rem,6vw,3.2rem)] leading-none">
+          Tech stack <span class="inline-block bg-white border-[3px] border-ink rounded-2xl px-3 -rotate-2">saya</span>
+        </h2>
+        <p class="text-sm text-ink-soft mt-2 font-bold uppercase tracking-widest">Animasi ditenagai anime.js, ringan di HP</p>
+      </div>
+      <div class="hidden sm:grid w-14 h-14 rounded-2xl bg-white border-[3px] border-ink place-items-center" data-anime="wiggle">
+        <Icon name="terminal" size={26} />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4" id="skills-grid" data-anime="stagger">
+      {
+        skills.map((skill, i) => (
+          <div
+            data-skill
+            data-level={levels[skill.name] ?? 80}
+            class="flat-card p-4 text-left bg-white"
+          >
+            <div class="flex items-center gap-3">
+              <span
+                class="w-12 h-12 rounded-2xl border-[3px] border-ink grid place-items-center shrink-0"
+                style={`background:${bgColors[i % bgColors.length]}`}
+              >
+                <skill.icon width={22} height={22} aria-hidden="true" />
+              </span>
+              <div class="min-w-0 flex-1">
+                <div class="font-bold text-[15px] leading-tight truncate">{skill.name}</div>
+                <div class="text-[11px] font-bold uppercase tracking-widest text-ink-soft">{skill.category}</div>
+              </div>
+              <span class="level-num font-display text-lg tabular-nums">0%</span>
+            </div>
+            <div class="mt-3 h-3.5 rounded-full border-2 border-ink bg-cream overflow-hidden">
+              <div
+                class="level-bar h-full rounded-full w-0"
+                style={`background:${bgColors[i % bgColors.length]}`}
+              ></div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

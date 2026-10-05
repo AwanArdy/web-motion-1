@@ -1,0 +1,16 @@
+---
+import Icon from "./Icon.astro";
+import { site } from "../data/portfolio";
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-sun border-t-[3px] border-ink pb-24 md:pb-0">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <a href="/" class="flex items-center gap-2 group" aria-label="Kembali ke atas">
+      <span class="w-10 h-10 rounded-xl bg-ink text-sun grid place-items-center font-display text-sm group-hover:rotate-6 transition-transform">{site.initials}</span>
+      <span class="font-display text-sm uppercase">Awan Ardy</span>
+    </a>
+    <span class="font-bold text-[11px] uppercase tracking-widest text-center inline-flex items-center gap-1.5">© {year} Awan Ardy — dibuat dengan <Icon name="heart" size={12} class="text-coral" /> dan Astro</span>
+    <span class="flat-chip bg-white inline-flex items-center gap-1.5"><Icon name="sparkles" size={12} strokeWidth={2.5} /> Astro plus TS Flat 2D</span>
+  </div>
+</footer>

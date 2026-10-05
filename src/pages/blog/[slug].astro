@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import { formatDate, readingTime } from "../../utils/format";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) =>
+    import.meta.env.PROD ? !data.draft : true
+  );
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const minutes = readingTime(post.body);
+---
+
+<BaseLayout title={`${post.data.title} — Awan Ardy`} description={post.data.description}>
+  <main class="pt-28 sm:pt-32 pb-20">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6">
+      <header class="flat-card bg-ink text-cream p-6 sm:p-10 dots-bg" style="background-image: radial-gradient(#FFF8E722 2px, transparent 2px);">
+        <a href="/blog" class="inline-flex items-center gap-2 font-bold text-xs uppercase tracking-widest text-white/60 hover:text-sun transition-colors mb-6 min-h-[44px]">
+          <Icon name="arrow-right" size={14} class="rotate-180" /> Semua Post
+        </a>
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <time datetime={post.data.pubDate.toISOString()} class="flat-chip bg-sun text-ink">
+            {formatDate(post.data.pubDate)}
+          </time>
+          <span class="text-white/60 text-xs font-bold uppercase tracking-widest">{minutes} min baca</span>
+        </div>
+        <h1 class="font-display uppercase leading-tight text-[clamp(1.6rem,6vw,2.8rem)]">
+          {post.data.title}
+        </h1>
+        {
+          post.data.tags.length > 0 && (
+            <div class="flex flex-wrap gap-1.5 mt-5">
+              {post.data.tags.map((tag) => (
+                <span class="px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest rounded-full border-2 border-white/20 text-white/70">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )
+        }
+      </header>
+
+      <div class="mt-6 flat-card bg-white p-6 sm:p-10">
+        {
+          post.data.updatedDate && (
+            <p class="text-xs font-bold uppercase tracking-widest text-ink-soft mb-8 bg-cream border-2 border-ink rounded-full px-4 py-2 inline-block">
+              Diperbarui: {formatDate(post.data.updatedDate)}
+            </p>
+          )
+        }
+        <div class="md-content">
+          <Content />
+        </div>
+        <footer class="mt-12 pt-6 border-t-[3px] border-dashed border-ink/20">
+          <a href="/blog" class="flat-btn bg-ink text-sun text-xs hover:bg-coral hover:text-white">
+            <Icon name="arrow-right" size={14} class="rotate-180" /> Kembali ke Blog
+          </a>
+        </footer>
+      </div>
+    </article>
+  </main>
+</BaseLayout>

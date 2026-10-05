@@ -1,0 +1,91 @@
+---
+import SectionTag from "./SectionTag.astro";
+import Icon from "../components/Icon.astro";
+import { site } from "../data/portfolio";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const cardBg = ["#FFC93C", "#6BCBFF", "#FF9F5A", "#6BCF7F"];
+---
+
+<section id="projects" class="py-16 sm:py-24 scroll-mt-24">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="reveal flex flex-wrap items-end justify-between gap-4 mb-8" data-anime="fade">
+      <div>
+        <SectionTag label="Work" color="#FF6B6B" icon="play" />
+        <h2 class="font-display uppercase mt-3 leading-none text-[clamp(1.9rem,6vw,3.2rem)]">
+          Proyek <span class="inline-block bg-ink text-sun px-3 rounded-2xl rotate-1">pilihan</span>
+        </h2>
+      </div>
+      <p class="text-sm text-ink-soft font-bold uppercase tracking-widest">Bentuk window flat, hover untuk play</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5" data-anime="stagger">
+      {
+        projects.map((project, i) => (
+          <a href={`/projects/${project.id}`} class="block group" aria-label={`Buka proyek ${project.data.title}`}>
+            <article
+              data-tilt
+              class="flat-card overflow-hidden bg-white group-hover:-translate-y-2 group-hover:rotate-[0.5deg] transition-all duration-300 h-full"
+            >
+              <div class="flex items-center gap-1.5 px-4 py-2.5 border-b-[3px] border-ink" style={`background:${cardBg[i % cardBg.length]}`}>
+                <span class="w-2.5 h-2.5 rounded-full bg-white border-2 border-ink"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-white border-2 border-ink"></span>
+                <span class="ml-1 text-[11px] font-black uppercase tracking-widest bg-ink text-white rounded-full px-2.5 py-0.5">
+                  Project {String(i + 1).padStart(2, "0")}
+                </span>
+                <span class="ml-auto w-9 h-9 rounded-full bg-white border-2 border-ink grid place-items-center opacity-100 md:opacity-0 md:group-hover:opacity-100 md:scale-75 md:group-hover:scale-100 transition-all">
+                  <Icon name="play" size={14} />
+                </span>
+              </div>
+
+              <div class="dots-bg p-5 pb-0">
+                <div class="rounded-2xl border-[3px] border-ink bg-cream p-4 flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-xl border-[3px] border-ink grid place-items-center font-display shrink-0" style={`background:${cardBg[i % cardBg.length]}`}>
+                    {project.data.title.charAt(0)}
+                  </div>
+                  <div class="min-w-0">
+                    <h3 class="font-display text-lg uppercase leading-tight truncate">{project.data.title}</h3>
+                    <div class="flex gap-1 mt-1.5" aria-hidden="true">
+                      <span class="h-2 w-16 rounded-full bg-ink/15"></span>
+                      <span class="h-2 w-8 rounded-full bg-ink/15"></span>
+                      <span class="h-2 w-2 rounded-full bg-coral inline-block" data-anime="pulse"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6">
+                <p class="text-sm leading-relaxed text-ink-soft line-clamp-2">{project.data.description}</p>
+                <div class="flex flex-wrap gap-1.5 mt-4">
+                  {project.data.tech.slice(0, 4).map((tech) => (
+                    <span class="px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest bg-cream border-2 border-ink rounded-full">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <span class="mt-4 inline-flex items-center gap-2 font-black text-xs uppercase tracking-widest text-ink group-hover:gap-3.5 transition-all">
+                  Buka studi kasus <Icon name="arrow-right" size={15} />
+                </span>
+              </div>
+            </article>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="reveal text-center mt-10" data-anime="fade">
+      <a
+        href={`${site.github}?tab=repositories`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flat-btn bg-ink text-cream text-sm hover:bg-coral"
+      >
+        Lihat Semua di GitHub <Icon name="arrow-right" size={16} />
+      </a>
+    </div>
+  </div>
+</section>

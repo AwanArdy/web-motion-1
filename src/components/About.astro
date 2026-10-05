@@ -1,0 +1,45 @@
+---
+import SectionTag from "./SectionTag.astro";
+import Icon from "./Icon.astro";
+const traits = [
+  { icon: "zap", title: "Cepat dan gesit", desc: "Deliver fitur cepat tanpa mengorbankan kualitas.", color: "#FFC93C" },
+  { icon: "layers", title: "End-to-end", desc: "Dari schema DB, API, sampai UI yang halus.", color: "#6BCBFF" },
+  { icon: "star", title: "Maintainable", desc: "Arsitektur bersih, mudah di-scale tim.", color: "#FF6B6B" },
+] as const;
+---
+
+<section id="about" class="relative py-16 sm:py-24 scroll-mt-28">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
+      <div class="reveal" data-anime="fade">
+        <SectionTag label="About" color="#FFC93C" icon="layers" />
+        <h2 class="font-display uppercase leading-[1.02] mt-4 text-[clamp(1.9rem,6vw,3.2rem)]">
+          Saya Awan,<br />
+          dev yang suka<br />
+          <span class="inline-block bg-lav text-white px-3 rounded-2xl rotate-1">tantangan.</span>
+        </h2>
+        <!-- squiggle drawn by anime.js -->
+        <svg viewBox="0 0 220 20" class="w-48 mt-4" aria-hidden="true">
+          <path d="M4 12 Q 30 4 55 12 T 106 12 T 157 12 T 216 12" fill="none" stroke="#FF6B6B" stroke-width="5" stroke-linecap="round" data-anime="draw" />
+        </svg>
+      </div>
+
+      <div class="space-y-4">
+        <p class="reveal flat-card p-5 sm:p-6 text-[15px] sm:text-base leading-relaxed" data-anime="fade">
+          Dengan pengalaman lebih dari <strong class="bg-sun px-1 rounded">2 tahun</strong> membangun aplikasi web dari nol hingga production, saya spesialis dalam arsitektur fullstack yang bersih, scalable, dan maintainable. Terbiasa bekerja cepat — dari startup hingga enterprise.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" data-anime="stagger">
+          {traits.map((t) => (
+            <div class="flat-card p-4 hover:-translate-y-1.5 transition-transform duration-200">
+              <div class="w-10 h-10 rounded-xl border-[3px] border-ink grid place-items-center" data-anime="float" style={`background:${t.color}`}>
+                <Icon name={t.icon} size={18} strokeWidth={2.5} />
+              </div>
+              <div class="font-display text-sm uppercase mt-3">{t.title}</div>
+              <div class="text-[13px] leading-relaxed text-ink-soft mt-1">{t.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

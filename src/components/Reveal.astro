@@ -1,0 +1,14 @@
+---
+interface Props {
+  as?: string;
+  delay?: number;
+  variant?: "up" | "left" | "right" | "scale";
+  class?: string;
+}
+const { delay = 0, variant = "up", class: className = "" } = Astro.props;
+const variantClass =
+  variant === "left" ? "reveal-left" : variant === "right" ? "reveal-right" : variant === "scale" ? "reveal-scale" : "";
+---
+<div class={`reveal ${variantClass} ${className}`} style={`--reveal-delay: ${delay}ms`}>
+  <slot />
+</div>

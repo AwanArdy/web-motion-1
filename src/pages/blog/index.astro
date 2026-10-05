@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
+import { getCollection } from "astro:content";
+import { formatDate, readingTime } from "../../utils/format";
+
+const ACCENTS = ["#FFC93C", "#6BCBFF", "#FF6B6B", "#9B5DE5", "#6BCF7F"];
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="Blog — Awan Ardy" description="Tulisan tentang pengembangan web, TypeScript, dan hal-hal yang saya pelajari.">
+  <main class="pt-28 sm:pt-32 pb-20">
+    <section class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="reveal flat-card p-6 sm:p-10 bg-white dots-bg text-center sm:text-left">
+        <span class="flat-chip bg-mint inline-flex items-center gap-1.5"><Icon name="pen" size={13} strokeWidth={2.5} /> Blog</span>
+        <h1 class="font-display uppercase leading-none mt-3 text-[clamp(2rem,7vw,3.8rem)]">
+          Catatan & <span class="inline-block bg-sun border-[3px] border-ink rounded-2xl px-3 -rotate-1">eksperimen</span>
+        </h1>
+        <p class="text-ink-soft mt-3 max-w-xl">Dokumentasi proses belajar, tutorial, dan opini soal pengembangan web.</p>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+      {
+        posts.length === 0 ? (
+          <p class="flat-card p-6 font-bold uppercase tracking-widest text-sm">Belum ada post.</p>
+        ) : (
+          <div class="stagger grid grid-cols-1 md:grid-cols-2 gap-4">
+            {posts.map((post, i) => (
+              <a href={`/blog/${post.id}`} class="block group">
+                <article class="flat-card h-full bg-white overflow-hidden group-hover:-translate-y-1.5 transition-transform">
+                  <div class="h-2.5" style={`background:${ACCENTS[i % ACCENTS.length]}`} />
+                  <div class="p-5 sm:p-6">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                      <time datetime={post.data.pubDate.toISOString()} class="flat-chip bg-ink text-cream">
+                        {formatDate(post.data.pubDate)}
+                      </time>
+                      <span class="text-[11px] font-bold uppercase tracking-widest text-ink-soft">{readingTime(post.body)} min baca</span>
+                    </div>
+                    <h2 class="font-display text-xl uppercase leading-tight">{post.data.title}</h2>
+                    <p class="text-sm leading-relaxed text-ink-soft mt-2">{post.data.description}</p>
+                    <div class="flex flex-wrap gap-1.5 mt-4">
+                      {post.data.tags.map((tag) => (
+                        <span class="px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest bg-cream border-2 border-ink rounded-full">#{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,330 @@
+---
+import "@fontsource/archivo-black";
+import "@fontsource/courier-prime/400.css";
+import "@fontsource/courier-prime/700.css";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Icon from "../components/Icon.astro";
+import { site } from "../data/portfolio";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.title, description = site.description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#FFF8E7" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+  </head>
+  <body class="min-h-screen">
+    <div
+      id="scroll-progress"
+      aria-hidden="true"
+      class="fixed top-0 left-0 h-1.5 bg-coral z-[60] w-0 rounded-r-full"
+    ></div>
+
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[70] focus:bg-ink focus:text-cream focus:px-4 focus:py-2 focus:rounded-xl"
+    >
+      Lewati ke konten
+    </a>
+
+    <Header />
+    <div id="main">
+      <slot />
+    </div>
+
+    <div class="fixed bottom-4 inset-x-4 z-40 flex items-center gap-3 md:hidden">
+      <a
+        href="#contact"
+        class="flat-btn flex-1 bg-ink text-cream text-sm shadow-soft"
+        aria-label="Hubungi saya"
+      >
+        <Icon name="sparkles" size={15} strokeWidth={2.5} /> Ajak Kolaborasi
+      </a>
+      <button
+        id="to-top"
+        type="button"
+        aria-label="Kembali ke atas"
+        class="w-12 h-12 shrink-0 rounded-2xl border-[3px] border-ink bg-sun grid place-items-center shadow-soft opacity-0 pointer-events-none transition-all duration-300"
+      >
+        <Icon name="arrow-up" size={20} />
+      </button>
+    </div>
+
+    <button
+      id="to-top-desktop"
+      type="button"
+      aria-label="Kembali ke atas"
+      class="hidden md:grid fixed bottom-6 right-6 z-40 w-12 h-12 rounded-2xl border-[3px] border-ink bg-white place-items-center opacity-0 pointer-events-none transition-all duration-300 hover:bg-sun"
+      style="box-shadow: 0 5px 0 0 #1E1E2E;"
+    >
+      <Icon name="arrow-up" size={20} />
+    </button>
+
+    <script>
+      import { animate, stagger, createTimeline, onScroll } from "animejs";
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const coarse = window.matchMedia("(pointer: coarse)").matches;
+      const fineMotion = !reduced;
+
+      // Make CSS-hidden reveals visible if motion is off or anime fails
+      const revealEls = Array.from(document.querySelectorAll(".reveal"));
+      const markVisible = (el: Element) => el.classList.add("is-visible");
+
+      if (!fineMotion) {
+        revealEls.forEach(markVisible);
+        document.querySelectorAll("[data-anime='stagger']").forEach(markVisible);
+      }
+
+      /* ---------- 1. Hero entrance timeline (anime.js) ---------- */
+      const hero = document.querySelector("[data-hero]");
+      if (hero && fineMotion) {
+        const copyItems = hero.querySelectorAll("[data-hero-copy] [data-anime='fade'], [data-hero-copy] [data-anime='hero-title']");
+        const card = hero.querySelector("[data-anime='hero-card']");
+        const tl = createTimeline({ defaults: { ease: "outCubic" } });
+        tl.from("[data-anime='header']", { y: [-24, 0], opacity: [0, 1], duration: 500 })
+          .from(copyItems, { y: [32, 0], opacity: [0, 1], duration: 650, delay: stagger(90) }, "-=200")
+          .from(card, { y: [48, 0], scale: [0.94, 1], opacity: [0, 1], duration: 750, ease: "outBack" }, "-=450")
+          .from("[data-anime='hills']", { y: [60, 0], duration: 700 }, "-=600");
+        copyItems.forEach((el) => el.classList.add("is-visible"));
+        card?.classList.add("is-visible");
+      } else {
+        hero?.querySelectorAll(".reveal").forEach(markVisible);
+      }
+
+      /* ---------- 2. Scroll reveals driven by anime.js ---------- */
+      if (fineMotion && "IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return;
+              const el = e.target as HTMLElement;
+              io.unobserve(el);
+              el.classList.add("is-visible");
+              const kind = el.getAttribute("data-anime");
+              if (kind === "stagger") {
+                animate(el.children, {
+                  y: [26, 0], opacity: [0, 1], scale: [0.97, 1],
+                  duration: 600, delay: stagger(85), ease: "outCubic",
+                });
+              } else if (kind === "fade" || el.classList.contains("reveal")) {
+                animate(el, {
+                  y: [28, 0], opacity: [0, 1], scale: [0.98, 1],
+                  duration: 650, ease: "outCubic",
+                });
+              }
+              // line-draw for squiggles inside revealed blocks
+              const draw = el.matches("[data-anime='draw']") ? el : el.querySelector("[data-anime='draw']");
+              if (draw instanceof SVGPathElement) {
+                const len = draw.getTotalLength();
+                draw.style.strokeDasharray = String(len);
+                draw.style.strokeDashoffset = String(len);
+                animate(draw, {
+                  strokeDashoffset: [len, 0],
+                  duration: 900, ease: "inOutQuad",
+                });
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+        );
+        document.querySelectorAll("[data-anime='fade'], [data-anime='stagger'], .reveal").forEach((el) => {
+          // hero items already played via timeline; skip double-run
+          if (hero?.contains(el) && hero.querySelector("[data-hero-copy]")?.contains(el)) return;
+          // draw-only paths are handled when their parent reveals
+          if ((el as HTMLElement).getAttribute("data-anime") === "draw") return;
+          io.observe(el);
+        });
+
+        /* ---------- 3. Ambient loops (anime.js, transform-only) ---------- */
+        const loop = (
+          targets: string | Element[],
+          vars: Record<string, unknown>,
+          duration: number,
+          delayFn?: (el: Element, i: number) => number
+        ) => {
+          if (coarse) duration = duration * 1.4; // calmer on touch devices
+          animate(targets as never, {
+            ...(vars as object),
+            duration, alternate: true, loop: true, ease: "inOutSine",
+            delay: delayFn ?? stagger(180),
+          } as never);
+        };
+        loop("[data-anime='float']", { y: [0, -12], rotate: [0, 1.5] }, coarse ? 2600 : 2000);
+        loop("[data-anime='float-alt']", { y: [0, 10], rotate: [0, -1.5] }, coarse ? 2800 : 2200);
+        loop("[data-anime='float-slow']", { y: [0, -9] }, 3200);
+        loop("[data-anime='pulse']", { scale: [1, 1.18], opacity: [1, 0.55] }, 1400);
+        loop("[data-anime='wiggle']", { rotate: [-6, 6] }, 1200);
+        animate("[data-anime='spin']", { rotate: [0, 360], duration: 16000, loop: true, ease: "linear" } as never);
+        // clouds drift across (linear, restarts seamlessly)
+        const clouds = document.querySelector("[data-anime='clouds']");
+        if (clouds) {
+          animate(clouds, {
+            x: ["-15%", "38%"], duration: 26000, loop: true, ease: "linear",
+          } as never);
+        }
+        // marquee: single seamless loop
+        const marquee = document.querySelector("[data-anime='marquee']");
+        if (marquee) {
+          animate(marquee, {
+            x: ["0%", "-50%"], duration: coarse ? 30000 : 24000, loop: true, ease: "linear",
+          } as never);
+        }
+
+        /* ---------- 4. Scroll-linked progress via onScroll ---------- */
+        try {
+          const progress = document.getElementById("scroll-progress");
+          if (progress) {
+            animate(progress, {
+              width: ["0%", "100%"], ease: "linear",
+              autoplay: onScroll({ target: document.body, container: document.documentElement, sync: true }),
+            } as never);
+          }
+          const tlBar = document.getElementById("timeline-progress");
+          const tlWrap = document.getElementById("timeline");
+          if (tlBar && tlWrap) {
+            animate(tlBar, {
+              height: ["0px", `${tlWrap.offsetHeight - 16}px`], ease: "linear",
+              autoplay: onScroll({ target: tlWrap, container: document.documentElement, enter: "top-=70% top", leave: "bottom-=40% top", sync: true }),
+            } as never);
+          }
+        } catch {
+          // fallback: manual rAF progress below still runs
+        }
+      } else {
+        revealEls.forEach(markVisible);
+      }
+
+      /* ---------- 5. Skill bars + counters (anime.js) ---------- */
+      const grid = document.getElementById("skills-grid");
+      const runSkills = () => {
+        document.querySelectorAll("[data-skill]").forEach((card) => {
+          if (card.hasAttribute("data-done")) return;
+          card.setAttribute("data-done", "1");
+          const level = Number((card as HTMLElement).dataset.level || 80);
+          const bar = card.querySelector(".level-bar");
+          const num = card.querySelector(".level-num");
+          if (bar && fineMotion) animate(bar, { width: ["0%", `${level}%`], duration: 1100, ease: "outCubic" } as never);
+          else if (bar) ((bar as HTMLElement).style.width = level + "%");
+          if (num && fineMotion) {
+            const obj = { v: 0 };
+            animate(obj, {
+              v: level, duration: 1100, ease: "outCubic",
+              onUpdate: () => { num.textContent = Math.round(obj.v) + "%"; },
+            } as never);
+          } else if (num) num.textContent = level + "%";
+        });
+      };
+      if (grid && "IntersectionObserver" in window && fineMotion) {
+        const sio = new IntersectionObserver((es) => {
+          es.forEach((e) => { if (e.isIntersecting) { runSkills(); sio.disconnect(); } });
+        }, { threshold: 0.15 });
+        sio.observe(grid);
+      } else runSkills();
+
+      /* ---------- 6. Chrome: progress fallback, to-top, nav, tilt ---------- */
+      const progress = document.getElementById("scroll-progress");
+      const toTop = document.getElementById("to-top");
+      const toTopDesktop = document.getElementById("to-top-desktop");
+      let ticking = false;
+      const onScrollFallback = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const h = document.documentElement;
+          const max = h.scrollHeight - h.clientHeight;
+          // only set width manually if anime onScroll did not (no inline transform driver)
+          if (progress && !progress.style.width) progress.style.width = `${(max > 0 ? h.scrollTop / max : 0) * 100}%`;
+          const show = h.scrollTop > 600;
+          [toTop, toTopDesktop].forEach((btn) => {
+            if (!btn) return;
+            btn.classList.toggle("opacity-0", !show);
+            btn.classList.toggle("pointer-events-none", !show);
+            btn.classList.toggle("translate-y-2", !show);
+          });
+          ticking = false;
+        });
+      };
+      window.addEventListener("scroll", onScrollFallback, { passive: true });
+      onScrollFallback();
+
+      const goTop = () => window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+      toTop?.addEventListener("click", goTop);
+      toTopDesktop?.addEventListener("click", goTop);
+
+      const links = Array.from(document.querySelectorAll("[data-nav-link-desktop]"));
+      const sections = links
+        .map((a) => document.querySelector((a as HTMLAnchorElement).getAttribute("href") || ""))
+        .filter(Boolean) as Element[];
+      if ("IntersectionObserver" in window && sections.length) {
+        const secIO = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                const id = "#" + e.target.id;
+                links.forEach((a) =>
+                  a.classList.toggle("is-active", (a as HTMLAnchorElement).getAttribute("href") === id)
+                );
+              }
+            });
+          },
+          { rootMargin: "-40% 0px -55% 0px" }
+        );
+        sections.forEach((s) => secIO.observe(s));
+      }
+
+      // Buttons: subtle press feedback via anime.js
+      if (fineMotion) {
+        document.querySelectorAll("[data-anime='btn'], .flat-btn").forEach((btn) => {
+          btn.addEventListener("pointerdown", () => animate(btn as never, { scale: [1, 0.96], duration: 120, ease: "outQuad" } as never));
+          btn.addEventListener("pointerup", () => animate(btn as never, { scale: [0.96, 1], duration: 260, ease: "outBack" } as never));
+        });
+      }
+
+      // Tilt only on fine pointers
+      if (!coarse && fineMotion) {
+        document.querySelectorAll("[data-tilt]").forEach((card) => {
+          const el = card as HTMLElement;
+          el.addEventListener("pointermove", (ev) => {
+            const r = el.getBoundingClientRect();
+            const x = (ev.clientX - r.left) / r.width - 0.5;
+            const y = (ev.clientY - r.top) / r.height - 0.5;
+            animate(el, { rotateX: -y * 6, rotateY: x * 6, duration: 200, ease: "outQuad" } as never);
+          });
+          el.addEventListener("pointerleave", () => {
+            animate(el, { rotateX: 0, rotateY: 0, duration: 400, ease: "outCubic" } as never);
+          });
+        });
+      }
+    </script>
+
+    <style>
+      [data-nav-link-desktop].is-active {
+        background: #1e1e2e;
+        color: #ffc93c;
+        border-radius: 99px;
+      }
+    </style>
+  </body>
+</html>

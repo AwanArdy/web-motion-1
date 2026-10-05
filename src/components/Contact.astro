@@ -1,0 +1,131 @@
+---
+import SectionTag from "./SectionTag.astro";
+import Icon from "../components/Icon.astro";
+import { site } from "../data/portfolio";
+---
+
+<section id="contact" class="relative py-16 sm:py-24 bg-ink text-cream overflow-clip rounded-t-[2.5rem] sm:rounded-t-[3.5rem] border-t-[3px] border-ink scroll-mt-24">
+  <div aria-hidden="true" class="absolute -top-10 right-10 w-32 h-32 rounded-full bg-coral/30" data-anime="float-slow"></div>
+  <div aria-hidden="true" class="absolute bottom-16 left-6 dots-bg w-28 h-20 opacity-20 rounded-2xl hidden sm:block" style="background-image: radial-gradient(#FFF8E722 2px, transparent 2px);"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 relative">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+      <div class="reveal text-center lg:text-left" data-anime="fade">
+        <SectionTag label="Contact" color="#FFC93C" icon="mail" />
+        <h2 class="font-display uppercase mt-4 leading-[0.98] text-[clamp(2.2rem,8vw,4rem)]">
+          Punya<br />proyek?<br />
+          <span class="inline-block bg-coral text-white px-4 rounded-2xl -rotate-2" data-anime="float-slow">Ngobrol</span>
+          <span class="text-sun"> yuk.</span>
+        </h2>
+        <p class="text-white/60 leading-relaxed mt-4 text-sm sm:text-base max-w-sm mx-auto lg:mx-0">
+          Terbuka untuk freelance, kolaborasi, atau full-time. Balas dalam 24 jam.
+        </p>
+
+        <div class="mt-6 grid gap-2.5 max-w-sm mx-auto lg:mx-0">
+          <a href={`mailto:${site.email}`} class="flex items-center gap-3 bg-white/5 border-2 border-white/15 rounded-2xl p-3 hover:border-sun hover:bg-white/10 hover:-translate-y-0.5 transition-all min-h-[56px]">
+            <span class="w-11 h-11 rounded-xl bg-sun text-ink grid place-items-center shrink-0 border-2 border-sun">
+              <Icon name="mail" size={19} />
+            </span>
+            <span class="text-left min-w-0">
+              <span class="block text-[11px] font-bold uppercase tracking-widest text-white/50">Email</span>
+              <span class="block font-bold text-sm truncate">{site.email}</span>
+            </span>
+          </a>
+          <a href={site.github} target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 bg-white/5 border-2 border-white/15 rounded-2xl p-3 hover:border-sun hover:bg-white/10 hover:-translate-y-0.5 transition-all min-h-[56px]">
+            <span class="w-11 h-11 rounded-xl bg-white text-ink grid place-items-center shrink-0">
+              <Icon name="github" size={19} />
+            </span>
+            <span class="text-left min-w-0">
+              <span class="block text-[11px] font-bold uppercase tracking-widest text-white/50">GitHub</span>
+              <span class="block font-bold text-sm truncate">{site.githubLabel}</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="reveal" data-anime="fade">
+        <div class="bg-paper text-ink rounded-[1.75rem] border-[3px] border-cream p-5 sm:p-7" style="box-shadow: 0 8px 0 0 #FF6B6B;">
+          <div class="flex items-center gap-2 mb-5">
+            <span class="w-8 h-8 rounded-full bg-mint border-2 border-ink grid place-items-center" data-anime="float">
+              <Icon name="sparkles" size={14} strokeWidth={2.5} />
+            </span>
+            <span class="font-display text-sm uppercase">Kirim pesan kilat</span>
+            <span class="ml-auto flat-chip bg-sun !py-0.5">Sekitar 1 menit</span>
+          </div>
+
+          <form id="contact-form" class="space-y-3.5" novalidate>
+            <div>
+              <label for="contact-name" class="block font-bold text-[11px] uppercase tracking-widest mb-1.5 text-ink-soft">Nama</label>
+              <input
+                id="contact-name" name="name" type="text" required autocomplete="name" placeholder="Nama Anda"
+                class="w-full bg-cream border-[3px] border-ink rounded-2xl px-4 py-3.5 font-bold outline-none placeholder:text-ink/30 placeholder:font-body text-[15px] focus:bg-white focus:border-royal transition-colors min-h-[52px]"
+              />
+            </div>
+            <div>
+              <label for="contact-email" class="block font-bold text-[11px] uppercase tracking-widest mb-1.5 text-ink-soft">Email</label>
+              <input
+                id="contact-email" name="email" type="email" required autocomplete="email" placeholder="email@anda.com"
+                class="w-full bg-cream border-[3px] border-ink rounded-2xl px-4 py-3.5 font-bold outline-none placeholder:text-ink/30 placeholder:font-body text-[15px] focus:bg-white focus:border-royal transition-colors min-h-[52px]"
+              />
+            </div>
+            <div>
+              <label for="contact-message" class="block font-bold text-[11px] uppercase tracking-widest mb-1.5 text-ink-soft">Pesan</label>
+              <textarea
+                id="contact-message" name="message" rows="4" required placeholder="Ceritakan proyek Anda..."
+                class="w-full bg-cream border-[3px] border-ink rounded-2xl px-4 py-3.5 font-bold outline-none placeholder:text-ink/30 placeholder:font-body text-[15px] focus:bg-white focus:border-royal transition-colors resize-none min-h-[120px]"
+              ></textarea>
+            </div>
+            <p id="form-error" hidden class="text-sm font-bold text-coral" role="alert">Isi nama, email valid, dan pesan dulu ya.</p>
+            <button type="submit" id="form-btn" class="flat-btn w-full bg-ink text-sun text-sm hover:bg-coral hover:text-white" data-anime="btn">
+              <span class="btn-label">Kirim Pesan</span> <Icon name="send" size={16} />
+            </button>
+          </form>
+
+          <div id="form-success" hidden class="text-center py-10">
+            <div class="mx-auto w-20 h-20 rounded-full bg-mint border-[3px] border-ink grid place-items-center" data-anime="pop">
+              <Icon name="check" size={32} strokeWidth={3} />
+            </div>
+            <h3 class="font-display text-2xl uppercase mt-4">Pesan terkirim</h3>
+            <p class="text-ink-soft text-sm mt-1">Saya akan segera menghubungi Anda.</p>
+            <div class="mt-4 h-3 rounded-full border-2 border-ink bg-cream overflow-hidden">
+              <div class="h-full w-full bg-mint origin-left" data-anime="bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const success = document.getElementById("form-success");
+  const error = document.getElementById("form-error");
+  const btn = document.getElementById("form-btn");
+  const label = btn?.querySelector(".btn-label");
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const message = String(data.get("message") || "").trim();
+    const valid = name.length > 1 && /.+@.+\..+/.test(email) && message.length > 3;
+    if (!valid) {
+      error?.removeAttribute("hidden");
+      (form.querySelector("input:invalid, textarea:invalid") as HTMLElement | null)?.focus();
+      return;
+    }
+    error?.setAttribute("hidden", "");
+    if (btn && label) {
+      btn.setAttribute("disabled", "");
+      label.textContent = "Mengirim...";
+    }
+    setTimeout(() => {
+      if (form && success) {
+        form.hidden = true;
+        success.removeAttribute("hidden");
+      }
+    }, 700);
+  });
+</script>

@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout title={`${project.data.title} — Awan Ardy`} description={project.data.description}>
+  <main class="pt-28 sm:pt-32 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+      <header class="flat-card overflow-hidden bg-white">
+        <div class="flex items-center gap-1.5 px-4 py-2.5 bg-sun border-b-[3px] border-ink">
+          <span class="w-2.5 h-2.5 rounded-full bg-white border-2 border-ink"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-white border-2 border-ink"></span>
+          <a href="/#projects" class="ml-1 inline-flex items-center gap-2 font-bold text-xs uppercase tracking-widest hover:underline min-h-[44px]">
+            <Icon name="arrow-right" size={14} class="rotate-180" /> Semua Proyek
+          </a>
+        </div>
+        <div class="p-6 sm:p-10 dots-bg">
+          <span class="flat-chip bg-ink text-sun inline-flex items-center gap-1.5"><Icon name="sparkles" size={13} strokeWidth={2.5} /> Project</span>
+          <h1 class="font-display uppercase leading-tight mt-4 text-[clamp(1.7rem,6vw,2.8rem)]">
+            {project.data.title}
+          </h1>
+          <p class="text-sm sm:text-base leading-relaxed mt-3 text-ink-soft">
+            {project.data.description}
+          </p>
+          <div class="flex flex-wrap gap-1.5 mt-5">
+            {
+              project.data.tech.map((tech) => (
+                <span class="px-3 py-1 text-[11px] font-bold uppercase tracking-widest bg-cream border-2 border-ink rounded-full">
+                  {tech}
+                </span>
+              ))
+            }
+          </div>
+          {
+            (project.data.demo || project.data.github) && (
+              <div class="flex flex-col sm:flex-row gap-3 mt-7">
+                {project.data.demo && (
+                  <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="flat-btn bg-ink text-sun text-xs hover:bg-coral hover:text-white">
+                    Live Demo <Icon name="external-link" size={14} />
+                  </a>
+                )}
+                {project.data.github && (
+                  <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="flat-btn bg-white text-ink text-xs hover:bg-sun">
+                    <Icon name="github" size={14} /> Source Code
+                  </a>
+                )}
+              </div>
+            )
+          }
+        </div>
+      </header>
+
+      <div class="mt-5 flat-card bg-white p-6 sm:p-10">
+        <div class="md-content">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
