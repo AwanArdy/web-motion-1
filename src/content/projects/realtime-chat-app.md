@@ -1,6 +1,6 @@
 ---
 title: Realtime Chat App
-description: WebSocket-powered messaging dengan end-to-end encryption, file sharing, dan group channels. Melayani 5k MAU.
+description: Aplikasi pesan instan berbasis WebSocket dengan enkripsi end-to-end, transmisi media, dan kanal grup.
 tech:
   - Node.js
   - Socket.io

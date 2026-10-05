@@ -11,15 +11,15 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 );
 ---
 
-<BaseLayout title="Blog — Awan Ardy" description="Tulisan tentang pengembangan web, TypeScript, dan hal-hal yang saya pelajari.">
+<BaseLayout title="Blog — Awan Ardy" description="Dokumentasi alur kerja, analisis arsitektur, dan studi kasus pemecahan masalah dalam rekayasa web.">
   <main class="pt-28 sm:pt-32 pb-20">
     <section class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="reveal flat-card p-6 sm:p-10 bg-white dots-bg text-center sm:text-left">
         <span class="flat-chip bg-mint inline-flex items-center gap-1.5"><Icon name="pen" size={13} strokeWidth={2.5} /> Blog</span>
         <h1 class="font-display uppercase leading-none mt-3 text-[clamp(2rem,7vw,3.8rem)]">
-          Catatan & <span class="inline-block bg-sun border-[3px] border-ink rounded-2xl px-3 -rotate-1">eksperimen</span>
+          Tulisan & <span class="inline-block bg-sun border-[3px] border-ink rounded-2xl px-3 -rotate-1">Catatan Teknis</span>
         </h1>
-        <p class="text-ink-soft mt-3 max-w-xl">Dokumentasi proses belajar, tutorial, dan opini soal pengembangan web.</p>
+        <p class="text-ink-soft mt-3 max-w-xl">Dokumentasi alur kerja, analisis arsitektur, dan studi kasus pemecahan masalah dalam rekayasa web.</p>
       </div>
     </section>
 

@@ -1,6 +1,6 @@
 ---
 title: Analytics Dashboard
-description: BI tool dengan interactive charts, CSV export, dan automated reporting. Kurangi manual reporting sebesar 80%.
+description: Dashboard analitik data internal dengan visualisasi grafik interaktif, ekspor data, dan otomatisasi pelaporan berkala.
 tech:
   - React
   - Python

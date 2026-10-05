@@ -34,9 +34,9 @@ export const site = {
   githubLabel: "github.com/AwanArdy",
   experienceYears: "2+ Years",
   status: "Open to Work",
-  title: "Awan Ardy Portofolio",
+  title: "Awan Ardy — Fullstack Web Developer",
   description:
-    "Portfolio fullstack web developer dengan gaya flat 2D motion yang menampilkan proyek dan keahlian.",
+    "Portfolio profesional Muhammad Awan Ardy Firmansyah — Fullstack Web Developer yang berfokus pada pengembangan aplikasi web modern, performa tinggi, dan struktur kode yang rapi.",
 };
 
 export const navItems = [
@@ -90,18 +90,18 @@ export const experience: ExperienceItem[] = [
     role: "Freelance Fullstack Developer",
     company: "Independent",
     period: "2026 — Now",
-    desc: "Membangun sistem Headless CMS dengan modul autentikasi kustom dan integrasi Cloudinary untuk optimasi gambar. Mengembangkan arsitektur backend menggunakan Node.js, Express, TypeScript, dan raw SQLite.",
+    desc: "Merancang dan membangun sistem Headless CMS kustom menggunakan Node.js, Express, TypeScript, dan SQLite. Menangani modul autentikasi internal serta integrasi Cloudinary untuk pipeline pemrosesan aset media.",
   },
   {
     role: "Freelance Frontend Engineer",
     company: "Independent",
     period: "2025 — 2026",
-    desc: "Mengembangkan antarmuka marketplace merchandise berkinerja tinggi dengan Vite, TypeScript, dan Zustand. Mengimplementasikan live search, filter produk kompleks, dan simulasi payment gateway.",
+    desc: "Mengembangkan antarmuka web e-commerce berbasis Vite, TypeScript, dan Zustand. Membangun fitur pencarian instan, filter katalog multi-kriteria, serta integrasi alur checkout dan payment gateway.",
   },
   {
     role: "Freelance Software Developer",
     company: "Independent",
     period: "2025",
-    desc: "Merancang dan membangun aplikasi Terminal User Interface (TUI) menggunakan library Ink dan TypeScript untuk memparsing serta memvisualisasikan data JSON smartctl secara real-time.",
+    desc: "Membangun aplikasi Terminal User Interface (TUI) interaktif dengan Ink dan TypeScript untuk memantau kesehatan storage drive, mem-parsing data JSON dari smartctl, dan menampilkan metrik diagnostik secara rapi.",
   },
 ];

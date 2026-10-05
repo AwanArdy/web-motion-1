@@ -1,6 +1,6 @@
 ---
 title: REST API Gateway
-description: Centralized API management dengan rate limiting, JWT auth, request logging, dan auto-generated OpenAPI docs.
+description: Layanan gateway API terpusat dengan autentikasi JWT, proteksi rate limiting, pencatatan log request, dan OpenAPI docs.
 tech:
   - Express.js
   - Prisma

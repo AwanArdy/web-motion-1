@@ -1,6 +1,6 @@
 ---
 title: E-Commerce Platform
-description: Full-stack marketplace dengan real-time inventory, payment via Midtrans, dan admin dashboard. Handle 10k+ transaksi harian.
+description: Platform e-commerce dengan manajemen inventaris real-time, integrasi gateway Midtrans, dan dashboard operasional.
 tech:
   - Next.js
   - PostgreSQL
