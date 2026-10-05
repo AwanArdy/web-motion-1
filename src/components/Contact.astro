@@ -98,6 +98,8 @@ import { site } from "../data/portfolio";
 </section>
 
 <script>
+  import { animate } from "animejs";
+
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
   const success = document.getElementById("form-success");
   const error = document.getElementById("form-error");
@@ -120,12 +122,18 @@ import { site } from "../data/portfolio";
     if (btn && label) {
       btn.setAttribute("disabled", "");
       label.textContent = "Mengirim...";
+      animate(btn, { scale: [1, 0.96, 1], duration: 350, ease: "outQuad" } as never);
     }
     setTimeout(() => {
       if (form && success) {
         form.hidden = true;
         success.removeAttribute("hidden");
+        animate(success, { opacity: [0, 1], scale: [0.94, 1], duration: 450, ease: "outBack" } as never);
+        const icon = success.querySelector("[data-anime='pop']");
+        if (icon) {
+          animate(icon, { scale: [0, 1.2, 1], rotate: [-15, 0], duration: 600, ease: "outBack" } as never);
+        }
       }
-    }, 700);
+    }, 600);
   });
 </script>

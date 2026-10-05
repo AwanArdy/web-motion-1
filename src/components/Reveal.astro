@@ -1,11 +1,10 @@
 ---
 interface Props {
-  as?: string;
   delay?: number;
   variant?: "up" | "left" | "right" | "scale";
   class?: string;
 }
-const { delay = 0, variant = "up", class: className = "" } = Astro.props;
+const { delay = 0, variant = "up", class: className = "" }: Props = Astro.props;
 const variantClass =
   variant === "left" ? "reveal-left" : variant === "right" ? "reveal-right" : variant === "scale" ? "reveal-scale" : "";
 ---

@@ -115,11 +115,11 @@
     @apply inline-flex items-center gap-1.5 rounded-full border-2 border-ink px-3 py-1 text-xs font-bold uppercase tracking-widest;
   }
   .flat-btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl border-[3px] border-ink font-bold uppercase tracking-wider transition-transform duration-200 min-h-[48px] px-6;
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl border-[3px] border-ink font-bold uppercase tracking-wider transition-all duration-150 min-h-[48px] px-6 select-none cursor-pointer;
     box-shadow: 0 5px 0 0 var(--color-ink);
   }
-  .flat-btn:hover { transform: translateY(2px); box-shadow: 0 3px 0 0 var(--color-ink); }
-  .flat-btn:active { transform: translateY(5px); box-shadow: 0 0 0 0 var(--color-ink); }
+  .flat-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 0 var(--color-ink); }
+  .flat-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 0 var(--color-ink); }
 
   .dots-bg {
     background-image: radial-gradient(rgb(30 30 46 / 0.16) 2px, transparent 2px);
@@ -133,13 +133,15 @@
   }
 }
 
-/* ---------- Scroll reveal (perf: transform+opacity only) ---------- */
+/* ---------- Scroll reveal (Anime.js driven, CSS fallback for no-js) ---------- */
 .reveal {
   opacity: 0;
   transform: translateY(28px) scale(0.98);
+  will-change: opacity, transform;
+}
+html:not(.js-anime) .reveal {
   transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
 }
 .reveal.is-visible {
   opacity: 1;
@@ -156,15 +158,17 @@
 .stagger > * {
   opacity: 0;
   transform: translateY(22px);
+}
+html:not(.js-anime) .stagger > * {
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; }
-.stagger.is-visible > *:nth-child(2) { transition-delay: 80ms; }
-.stagger.is-visible > *:nth-child(3) { transition-delay: 160ms; }
-.stagger.is-visible > *:nth-child(4) { transition-delay: 240ms; }
-.stagger.is-visible > *:nth-child(5) { transition-delay: 320ms; }
-.stagger.is-visible > *:nth-child(6) { transition-delay: 400ms; }
-.stagger.is-visible > *:nth-child(n+7) { transition-delay: 480ms; }
+html:not(.js-anime) .stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+html:not(.js-anime) .stagger.is-visible > *:nth-child(2) { transition-delay: 80ms; }
+html:not(.js-anime) .stagger.is-visible > *:nth-child(3) { transition-delay: 160ms; }
+html:not(.js-anime) .stagger.is-visible > *:nth-child(4) { transition-delay: 240ms; }
+html:not(.js-anime) .stagger.is-visible > *:nth-child(5) { transition-delay: 320ms; }
+html:not(.js-anime) .stagger.is-visible > *:nth-child(6) { transition-delay: 400ms; }
+html:not(.js-anime) .stagger.is-visible > *:nth-child(n+7) { transition-delay: 480ms; }
 .stagger.is-visible > * { opacity: 1; transform: none; }
 
 /* play state: pause infinite anims when offscreen for battery */

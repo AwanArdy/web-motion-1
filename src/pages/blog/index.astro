@@ -28,7 +28,7 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
         posts.length === 0 ? (
           <p class="flat-card p-6 font-bold uppercase tracking-widest text-sm">Belum ada post.</p>
         ) : (
-          <div class="stagger grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="stagger grid grid-cols-1 md:grid-cols-2 gap-4" data-anime="stagger">
             {posts.map((post, i) => (
               <a href={`/blog/${post.id}`} class="block group">
                 <article class="flat-card h-full bg-white overflow-hidden group-hover:-translate-y-1.5 transition-transform">
