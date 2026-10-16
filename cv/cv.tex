@@ -1,0 +1,106 @@
+% ATS-friendly CV
+% Compile with: pdflatex cv.tex  (or xelatex/lualatex)
+% Single-column, no tables/graphics/icons, standard fonts, selectable text.
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[margin=1.6cm]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\titleformat{\section}
+  {\large\bfseries\uppercase}{}{0em}{}[\vspace{2pt}\hrule]
+\titlespacing*{\section}{0pt}{10pt}{5pt}
+
+\newcommand{\cvheading}[1]{\textbf{#1}}
+\newcommand{\cvsub}[1]{\textit{#1}}
+
+\begin{document}
+
+% ---------- HEADER ----------
+\begin{center}
+  {\LARGE\bfseries Muhammad Awan Ardy Firmansyah}\\[3pt]
+  {\large Fullstack Web Developer}\\[4pt]
+  Palu, Indonesia $\cdot$ \href{mailto:muhammadawan46@gmail.com}{muhammadawan46@gmail.com} $\cdot$ \href{https://github.com/AwanArdy}{github.com/AwanArdy}
+\end{center}
+
+\vspace{2pt}\hrule
+
+% ---------- SUMMARY ----------
+\section*{Professional Summary}
+Fullstack Web Developer with 2+ years of experience building end-to-end web applications for production use. Skilled in translating requirements into reliable, high-performance systems with clean, maintainable, and modular code. Experienced across data modeling, API architecture, and UI implementation.
+
+% ---------- SKILLS ----------
+\section*{Technical Skills}
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item \cvheading{Frontend:} React, TypeScript, Tailwind CSS, AngularJS
+  \item \cvheading{Backend:} Node.js, Express.js, NestJS, Python, FastAPI, GraphQL
+  \item \cvheading{Databases:} PostgreSQL, SQLite, MongoDB, Redis
+  \item \cvheading{DevOps \& Tools:} Docker, Prisma, Git, Swagger/OpenAPI
+\end{itemize}
+
+% ---------- EXPERIENCE ----------
+\section*{Professional Experience}
+
+\cvheading{Freelance Fullstack Developer} --- Independent \hfill 2026 -- Present
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item Designed and built a custom Headless CMS using Node.js, Express, TypeScript, and SQLite.
+  \item Implemented internal authentication modules and integrated Cloudinary for the media asset processing pipeline.
+\end{itemize}
+
+\vspace{4pt}
+\cvheading{Freelance Frontend Engineer} --- Independent \hfill 2025 -- 2026
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item Developed an e-commerce web interface with Vite, TypeScript, and Zustand.
+  \item Built instant search, multi-criteria catalog filters, and integrated checkout and payment gateway flows.
+\end{itemize}
+
+\vspace{4pt}
+\cvheading{Freelance Software Developer} --- Independent \hfill 2025
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item Built an interactive Terminal User Interface (TUI) with Ink and TypeScript to monitor storage drive health.
+  \item Parsed smartctl JSON data and presented clean diagnostic metrics in the terminal.
+\end{itemize}
+
+% ---------- PROJECTS ----------
+\section*{Projects}
+
+\cvheading{E-Commerce Platform} --- Next.js, PostgreSQL, Redis, Docker
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item Full-stack marketplace covering catalog, cart, checkout, payment, and admin dashboard.
+  \item Achieved real-time inventory sync via PostgreSQL row-level locking and Redis caching; integrated Midtrans payment gateway with idempotent webhook handling.
+  \item Sustained 10k+ daily transactions with sub-0.1\% payment error rate and average checkout under 2 seconds.
+\end{itemize}
+
+\vspace{4pt}
+\cvheading{Realtime Chat App} --- Node.js, Socket.io, MongoDB, React
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item Built instant messaging with typing indicators, read receipts, file sharing, and group channels.
+  \item Implemented end-to-end encryption so the server only stores ciphertext; persisted messages in MongoDB with per-channel sharding.
+  \item Supported 5k monthly active users with average message latency under 100 ms.
+\end{itemize}
+
+\vspace{4pt}
+\cvheading{Analytics Dashboard} --- React, Python, FastAPI, Recharts
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item Internal business intelligence tool with interactive charting (zoom, time-range filter, drill-down).
+  \item Delivered one-click CSV export and scheduled automated reporting; reduced manual reporting effort by approximately 80\%.
+\end{itemize}
+
+\vspace{4pt}
+\cvheading{REST API Gateway} --- Express.js, Prisma, PostgreSQL, Swagger
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item Central API gateway providing JWT auth, rate limiting, structured logging, and auto-generated OpenAPI docs.
+  \item Reduced new service onboarding from days to hours by centralizing auth, quota, and documentation.
+\end{itemize}
+
+\end{document}
