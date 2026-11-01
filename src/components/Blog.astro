@@ -8,15 +8,17 @@ const ACCENTS = ["#FFC93C", "#6BCBFF", "#FF6B6B", "#9B5DE5"];
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 2);
+  .slice(0, 4);
 ---
 
-<section id="blog" class="py-16 sm:py-24 bg-white border-y-[3px] border-ink grid-bg scroll-mt-24">
+<section id="blog" class="py-16 sm:py-24 bg-white border-y-[3px] border-ink grid-bg scroll-mt-24 relative">
+  <div id="articles" class="absolute -top-24 pointer-events-none" aria-hidden="true"></div>
+  <div id="artikel" class="absolute -top-24 pointer-events-none" aria-hidden="true"></div>
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="reveal mb-8" data-anime="fade">
-      <SectionTag label="Blog" color="#6BCF7F" icon="pen" />
+      <SectionTag label="Artikel" color="#6BCF7F" icon="pen" />
       <h2 class="font-display uppercase mt-3 leading-none text-[clamp(1.9rem,6vw,3.2rem)]">
-        Catatan & Eksplorasi Teknis
+        Artikel & Eksplorasi Teknis
       </h2>
     </div>
 
@@ -60,7 +62,7 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
 
     <div class="reveal text-center mt-10" data-anime="fade">
       <a href="/blog" class="flat-btn bg-white text-ink text-sm hover:bg-sun">
-        Lihat Semua Post <Icon name="arrow-right" size={16} />
+        Lihat Semua Artikel <Icon name="arrow-right" size={16} />
       </a>
     </div>
   </div>

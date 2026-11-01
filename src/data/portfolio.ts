@@ -43,7 +43,7 @@ export const navItems = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
-  { label: "Blog", href: "#blog" },
+  { label: "Artikel", href: "#blog" },
   { label: "Experience", href: "#experience" },
   { label: "Contact", href: "#contact" },
 ];
